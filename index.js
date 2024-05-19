@@ -27,54 +27,54 @@ const io = socketIo(server, {
   },
 });
 
-// io.on("connection", (socket) => {
+io.on("connection", (socket) => {
 
 
-//   // joint room
-//   socket.on("join", (equipmentId) => {
-//     console.log(equipmentId, "   //id")
-//     console.log("equipment is connected");
-//     allPc = allPc.map((p) => {
-//       if (p._id != equipmentId) {
-//         return { ...p};
-//       } else {
-//         return { ...p, status: true, socketId: socket.id };
-//       }
-//     });
-//     socket.broadcast.emit("sendEquipmentData", allPc);
-//   });
+  // joint room
+  socket.on("join", (equipmentId) => {
+    console.log(equipmentId, "   //id")
+    console.log("equipment is connected");
+    allPc = allPc.map((p) => {
+      if (p._id != equipmentId) {
+        return { ...p};
+      } else {
+        return { ...p, status: true, socketId: socket.id };
+      }
+    });
+    socket.broadcast.emit("sendEquipmentData", allPc);
+  });
 
-//   socket.on("adminJoin", () => {
-//     (async () => {
-//         try {
-//           const equipmentsList = await EquipmentModel.find();
-//           allPc = equipmentsList.map((e) => {
-//             return { ...e._doc, status: false };
-//           });
-//         console.log("Admin is connected");
-//         socket.emit("sendEquipmentData", allPc);
-//         } catch (err) {
-//           console.log(err);
-//         }
-//       })();
+  socket.on("adminJoin", async() => {
+   
+        try {
+          const equipmentsList = await EquipmentModel.find();
+          allPc = equipmentsList.map((e) => {
+            return { ...e._doc, status: false };
+          });
+        console.log("Admin is connected");
+        socket.emit("sendEquipmentData", allPc);
+        } catch (err) {
+          console.log(err);
+        }
+      
 
-//   });
+  });
 
-//   socket.on("disconnect", () => {
-//     const socketId = socket.id;
-//     allPc = allPc.map((p) => {
-//       if (p.socketId === socketId) {
-//         return { ...p, socketId: null, status: false };
-//       } else {
-//         return { ...p };
-//       }
-//     });
-//     socket.broadcast.emit("sendEquipmentData", allPc);
+  socket.on("disconnect", () => {
+    const socketId = socket.id;
+    allPc = allPc.map((p) => {
+      if (p.socketId === socketId) {
+        return { ...p, socketId: null, status: false };
+      } else {
+        return { ...p };
+      }
+    });
+    socket.broadcast.emit("sendEquipmentData", allPc);
 
-//     console.log(allPc, "after equipment logout");
-//     console.log("User disconnected");
-//   });
-// });
+    console.log(allPc, "after equipment logout");
+    console.log("User disconnected");
+  });
+});
 
 app.use(express.static(path.join(__dirname,"public")))
 
