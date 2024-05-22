@@ -33,6 +33,8 @@ io.on("connection", (socket) => {
   // joint room
   socket.on("join", (equipmentId) => {
     console.log(equipmentId, "   //id")
+    const clientIP=req.headers['x-forwarded-for'];
+    console.log(clientIP);
     console.log("equipment is connected");
     allPc = allPc.map((p) => {
       if (p._id != equipmentId) {
