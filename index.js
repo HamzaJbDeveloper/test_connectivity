@@ -27,6 +27,12 @@ const io = socketIo(server, {
   },
 });
 
+req.use("/",(req, res, next=>{
+   const clientIP=req.headers['x-forwarded-for'];
+  console.log(clientIP," this is clientIP"); 
+next()
+  
+})
 io.on("connection", (socket) => {
 
 
