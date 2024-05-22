@@ -6,6 +6,14 @@ const socketIo = require("socket.io");
 const EquipmentModel = require("./models/equipment");
 const path=require("path")
 
+
+
+app.use("/",(req, res, next)=>{
+   const clientIP=req.headers['x-forwarded-for'][0];
+  console.log(clientIP," this is clientIP"); 
+next()
+  
+})
 // configuration to accept json as a body
 app.use(express.json());
 //configure to extract cookies from request
@@ -27,12 +35,7 @@ const io = socketIo(server, {
   },
 });
 
-app.use("/",(req, res, next)=>{
-   const clientIP=req.headers['x-forwarded-for'];
-  console.log(clientIP," this is clientIP"); 
-next()
-  
-})
+
 io.on("connection", (socket) => {
 
 
