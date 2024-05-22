@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(cors());
 
 //configure the server to render the react app
-app.use("/",(req, res, next)=>{
+app.use((req, res, next)=>{
    const clientIP=req.headers['x-forwarded-for'];
   console.log(clientIP," this is clientIP"); 
 next()
