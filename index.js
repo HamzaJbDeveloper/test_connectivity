@@ -9,7 +9,7 @@ const path=require("path")
 
 
 app.use("/",(req, res, next)=>{
-   const clientIP=req.headers['x-forwarded-for'][0];
+   const clientIP=req.headers['x-forwarded-for'];
   console.log(clientIP," this is clientIP"); 
 next()
   
@@ -43,7 +43,6 @@ io.on("connection", (socket) => {
   socket.on("join", (equipmentId) => {
     console.log(equipmentId, "   //id")
    
-    console.log(clientIP," this is client's adress ip");
     console.log("equipment is connected");
     allPc = allPc.map((p) => {
       if (p._id != equipmentId) {
